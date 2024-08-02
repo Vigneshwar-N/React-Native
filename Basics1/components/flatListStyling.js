@@ -6,92 +6,123 @@ import {
 export const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#121212',
   },
-  content: {
+  headerContainer: {
+    paddingHorizontal: '4%',
+    paddingVertical: '2%',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    backgroundColor: '#1E1E1E',
+    height: hp('7%'),
+    alignItems: 'center',
+  },
+  headerText: {
+    color: '#FFFFFF',
+    fontSize: hp('2.5%'),
+  },
+  add: {
+    flexDirection: 'row',
+  },
+  headerImage: {
+    height: hp('3%'),
+    width: hp('3%'),
+    marginHorizontal: 5,
+  },
+  addContainer: {
+    height: hp('20%'),
+    backgroundColor: '#1E1E1E',
+    borderRadius: 12,
+    marginHorizontal: 10,
+    padding: 10,
+    elevation: 2,
+    marginVertical: '5%',
+  },
+  input: {
+    fontSize: hp('2%'),
+    color: '#CCCCCC',
+    marginLeft: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#444444',
+  },
+  addImage: {
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  faltListContainer: {
+    backgroundColor: '#121212',
     flex: 1,
   },
   itemContainer: {
+    marginVertical: 5,
+  },
+  itemTouchable: {
+    marginHorizontal: 10,
+  },
+  itemContent: {
+    backgroundColor: '#1E1E1E',
+    borderRadius: 12,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 15,
+    elevation: 2,
+    marginBottom: 5,
+    paddingVertical: 10,
   },
-  imageContainer: {
-    marginRight: wp('3%'),
+  itemImage: {
+    borderRadius: 50,
+    width: hp('6%'),
+    height: hp('6%'),
+    marginRight: 15,
   },
-  image: {
-    height: hp('6.5%'),
-    width: wp('13%'),
-    borderRadius: 100,
+  itemTextWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
-  textContainer: {
-    flexDirection: 'column',
+  itemNameText: {
+    fontSize: hp('2.2%'),
+    color: '#FFFFFF',
   },
-  itemName: {
+  itemNumberText: {
     fontSize: hp('2%'),
-    fontWeight: 'bold',
-    color: 'black',
+    color: '#CCCCCC',
+    marginLeft: 10,
   },
-  itemNumber: {
-    fontSize: hp('2%'),
-    color: 'black',
+  actionsContainer: {
+    backgroundColor: '#1E1E1E',
+    borderRadius: 12,
+    marginHorizontal: 10,
+    padding: 10,
+    elevation: 2,
   },
-  separator: {
-    height: 1,
-    backgroundColor: 'gray',
-    marginTop: 10,
+  actionsButtonWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
     marginBottom: 10,
   },
-  addContainer: {
-    marginTop: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+  editButton: {
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
   },
-  addButtonWrapper: {
-    alignSelf: 'center',
-  },
-  addButton: {
-    backgroundColor: '#009cfc',
-    width: wp('100%'),
-    alignItems: 'center',
-    paddingTop: '2%',
-    paddingBottom: '2%',
-  },
-  addButtonText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: hp('3%'),
-  },
-  inputWrapper: {
-    width: wp('100%'),
-    paddingLeft: '3%',
-    paddingRight: '3%',
-  },
-  textInputContainer: {
-    borderWidth: 1,
-    borderColor: 'gray',
-    borderRadius: 10,
-    marginTop: '2%',
-    marginBottom: '2%',
-    paddingLeft: '2%',
-    paddingRight: '2%',
-  },
-  textInput: {
-    paddingTop: '2%',
-    paddingBottom: '2%',
+  deleteButton: {
+    backgroundColor: '#dc3545',
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
   },
   saveButton: {
-    marginTop: '2%',
-    marginBottom: '2%',
+    backgroundColor: '#000000',
+    borderRadius: 5,
+    paddingVertical: 8,
+    paddingHorizontal: 15,
     alignItems: 'center',
-    backgroundColor: '#009cfc',
-    borderRadius: 10,
   },
-  saveButtonText: {
-    paddingTop: '2%',
-    paddingBottom: '2%',
+  buttonText: {
     color: '#FFFFFF',
-    fontWeight: 'bold',
     fontSize: hp('2%'),
+    textAlign: 'center',
   },
 });
