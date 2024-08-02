@@ -13,7 +13,7 @@ import {images} from '../constants/images';
 import {styles} from '../components/flatListStyling';
 
 export default function List() {
-  //Data
+  // Data
   const [storage, setStorage] = useState([
     {
       id: '1',
@@ -196,7 +196,7 @@ export default function List() {
       number: '8889990004',
     },
   ]);
-  //states
+  // States
   const [showNumber, setShowNumber] = useState(false);
   const [longPress, setLongpress] = useState(false);
   const [selectedId, setSelectedId] = useState('');
@@ -212,22 +212,21 @@ export default function List() {
     currentPage * itemsPerPage,
   );
 
-  {
-    /**  FUnctions */
-  }
-  //longpress
+  // Functions
+
+  // Longpress function
   const longpressFunction = id => {
     setLongpress(true);
     setSelectedId(id);
   };
 
-  //shownumber
+  // Show number function
   const showNumberFunction = id => {
     setShowNumber(!showNumber);
     setSelectedId(id);
   };
 
-  //savefunctino
+  // Save function
   const saveFunction = () => {
     setStorage(prevStorage =>
       prevStorage.map(item =>
@@ -240,21 +239,24 @@ export default function List() {
     setNumber('');
   };
 
-  //---------------------------------------------------------------------------------------------------updation
+  // Update name
   const onChangeText = text => {
     setName(text);
   };
+
+  // Update number
   const onChangeNum = number => {
     setNumber(number);
   };
-  //-------------------------------------------------------------------------------------------------------deletion
+
+  // Delete item
   const deleteItem = id => {
     setStorage(prevStorage => prevStorage.filter(item => item.id !== id));
     setLongpress(false);
     setSelectedId('');
   };
 
-  //-------------------------------------------------------------------------------------------------------creation
+  // Create item
   const creationfunction = () => {
     setStorage([
       ...storage,
@@ -270,18 +272,14 @@ export default function List() {
     setAdd(false);
   };
 
-  //Changepage
+  // Change page
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber);
   };
 
   return (
     <View style={styles.container}>
-      {/**
-       *
-       *
-       *
-       * Header */}
+      {/* Header */}
       <View style={styles.headerContainer}>
         <Text style={styles.headerText}>Phone</Text>
         <View style={styles.add}>
@@ -290,19 +288,15 @@ export default function List() {
           </TouchableOpacity>
         </View>
       </View>
-      {/**
-       *
-       * creation
-       *
-       */}
 
+      {/* Creation */}
       {add && (
         <View style={styles.addContainer}>
           <TextInput
             style={styles.input}
             placeholder="name"
             placeholderTextColor="#888888"
-            onChangeText={text => setName(text)}
+            onChangeText={text => onChangeText(text)}
           />
           <TextInput
             style={styles.input}
@@ -310,7 +304,7 @@ export default function List() {
             placeholderTextColor="#888888"
             maxLength={10}
             keyboardType="numeric"
-            onChangeText={num => setNumber(num)}
+            onChangeText={num => onChangeNum(num)}
           />
           <TouchableOpacity
             onPress={() => {
@@ -321,8 +315,7 @@ export default function List() {
         </View>
       )}
 
-      {/** FlatList */}
-
+      {/* FlatList */}
       <View style={styles.faltListContainer}>
         <FlatList
           data={paginatedData}
@@ -341,7 +334,7 @@ export default function List() {
                     <TextInput
                       placeholder="Name"
                       editable={item.id === editId}
-                      value={item.name}
+                      value={item.id === editId ? name : item.name}
                       style={styles.itemNameText}
                       onChangeText={text => {
                         if (item.id === editId) {
@@ -352,7 +345,7 @@ export default function List() {
                     {selectedId === item.id && showNumber && (
                       <TextInput
                         placeholder="Number"
-                        value={item.number}
+                        value={item.id === editId ? number : item.number}
                         editable={item.id === editId}
                         style={styles.itemNumberText}
                         maxLength={10}
@@ -366,19 +359,16 @@ export default function List() {
                     )}
                   </View>
                 </View>
-                {/**
-                 *
-                 *
-                 *
-                 *
-                 *
-                 *
-                 */}
+
                 {selectedId === item.id && longPress && (
                   <View style={styles.actionsContainer}>
                     <View style={styles.actionsButtonWrapper}>
                       <TouchableOpacity
-                        onPress={() => setEditId(item.id)}
+                        onPress={() => {
+                          setEditId(item.id);
+                          setName(item.name);
+                          setNumber(item.number);
+                        }}
                         style={styles.editButton}>
                         <Text style={styles.buttonText}>Edit</Text>
                       </TouchableOpacity>
@@ -397,12 +387,6 @@ export default function List() {
                     )}
                   </View>
                 )}
-                {/**
-                 *
-                 *
-                 *
-                 *
-                 */}
               </TouchableOpacity>
             </View>
           )}
@@ -410,7 +394,7 @@ export default function List() {
         <View>
           <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
             <Button
-              title="previous"
+              title="Previous"
               disabled={currentPage === 1}
               onPress={() => handlePageChange(currentPage - 1)}
             />
