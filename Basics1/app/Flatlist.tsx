@@ -276,7 +276,7 @@ export default function List() {
   const handlePageChange = pageNumber => {
     setCurrentPage(pageNumber);
   };
-
+  console.log(editId);
   return (
     <View style={styles.container}>
       {/* Header */}
