@@ -1,0 +1,16 @@
+export const images = {
+  Char1: require('../assets/char1.png'),
+  Char2: require('../assets/char2.png'),
+  Char3: require('../assets/char3.png'),
+  Char4: require('../assets/char4.png'),
+  Char5: require('../assets/char5.png'),
+  Char6: require('../assets/char6.png'),
+  Char7: require('../assets/char7.png'),
+  char1full: require('../assets/char1full.png'),
+  char2full: require('../assets/char2full.png'),
+  char3full: require('../assets/char3full.png'),
+  char4full: require('../assets/char4full.png'),
+  char5full: require('../assets/char5full.png'),
+  char6full: require('../assets/char6full.png'),
+  char7full: require('../assets/char7full.png'),
+};
