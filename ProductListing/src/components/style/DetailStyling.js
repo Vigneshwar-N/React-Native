@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: 200,
-    resizeMode: 'cover',
+    resizeMode: 'center',
     marginBottom: 16,
   },
   title: {
