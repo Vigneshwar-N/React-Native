@@ -1,4 +1,4 @@
-import {View, Text, Image, StyleSheet, Button} from 'react-native';
+import {View, Text, Image} from 'react-native';
 import React from 'react';
 
 import {SelectedItemContext} from '../Hooks/UseContext';

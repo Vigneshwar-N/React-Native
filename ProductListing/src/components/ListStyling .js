@@ -9,6 +9,7 @@ export const styles = StyleSheet.create({
     elevation: 3,
   },
   image: {
+    resizeMode: 'contain',
     height: 150,
     width: '100%',
     borderBottomWidth: 1,
