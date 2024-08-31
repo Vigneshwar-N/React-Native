@@ -1,14 +1,24 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {ThemeProvider} from '../Hooks/UseContext'; // Adjust the import path
-import {BottomNavigator} from './BottomTabs';
+import {ThemeContext, ThemeProvider} from '../Hooks/UseContext';
+import {DrawerNavigator} from './DrawerNavigator';
+import {View} from 'react-native';
+
+function Navigator() {
+  const {darkTheme} = useContext(ThemeContext);
+  return (
+    <View style={{flex: 1, backgroundColor: darkTheme ? '#000000' : '#FFFFFF'}}>
+      <NavigationContainer>
+        <DrawerNavigator />
+      </NavigationContainer>
+    </View>
+  );
+}
 
 const AppNavigator = () => {
   return (
     <ThemeProvider>
-      <NavigationContainer>
-        <BottomNavigator />
-      </NavigationContainer>
+      <Navigator />
     </ThemeProvider>
   );
 };

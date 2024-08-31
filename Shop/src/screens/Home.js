@@ -15,7 +15,7 @@ export default function Home({navigation}) {
         paddingLeft: '4%',
         paddingRight: '4%',
       }}>
-      <Header />
+      {/* <Header /> */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <Header2 />
         <List navigation={navigation} />

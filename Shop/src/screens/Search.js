@@ -1,5 +1,12 @@
-import {View, Text, TextInput, TouchableOpacity} from 'react-native';
-import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  ScrollView,
+} from 'react-native';
+import React, {useContext, useState} from 'react';
 //Package
 import {
   heightPercentageToDP as hp,
@@ -13,16 +20,27 @@ import {
   getResponsiveWidth,
 } from '../utility/responsive';
 import {fonts} from '../constants/fonts/font';
+import {ThemeProvider} from '@react-navigation/native';
+import {ThemeContext} from '../Hooks/UseContext';
 export default function Search() {
+  const {darkTheme} = useContext(ThemeContext);
   const [input, setInput] = useState('');
 
   return (
-    <View style={{paddingTop: hp(5)}}>
+    <KeyboardAvoidingView
+      style={{
+        paddingTop: hp(5),
+        paddingRight: '4%',
+        paddingLeft: '4%',
+        backgroundColor: !darkTheme ? '#FFFFFF' : '#000000',
+        flex: 1,
+      }}>
       <View style={{alignItems: 'flex-end'}}>
         <TouchableOpacity>
           <Cross
             height={getResponsiveHeight(38)}
             width={getResponsiveWidth(38)}
+            color={!darkTheme ? '#000000' : '#ffffff'}
           />
         </TouchableOpacity>
       </View>
@@ -33,18 +51,18 @@ export default function Search() {
             alignItems: 'center',
             justifyContent: 'space-between',
             borderBottomWidth: getResponsiveHeight(1),
-            borderBottomColor: '#000000',
+            borderBottomColor: !darkTheme ? '#000000' : '#ffffff',
           }}>
           <TextInput
             style={{
               fontSize: getResponsiveFontSize(21),
               lineHeight: getResponsiveHeight(26),
               fontFamily: fonts.WorkSansRegular,
-              color: '#000000',
+              color: !darkTheme ? '#000000' : '#FFFFFF',
               width: wp(82),
             }}
             numberOfLines={1}
-            placeholderTextColor={'#000000'}
+            placeholderTextColor={!darkTheme ? '#000000' : '#FFFFFF'}
             placeholder="Enter here"
             value={input}
             onChangeText={text => setInput(text)}
@@ -55,20 +73,21 @@ export default function Search() {
             <LightCross
               height={getResponsiveHeight(13)}
               width={getResponsiveWidth(13)}
+              color={!darkTheme ? '#000000' : '#ffffff'}
             />
           </TouchableOpacity>
         </View>
-        <View style={{paddingTop: hp(4), paddingLeft: wp(0.5)}}>
+        <ScrollView style={{paddingTop: hp(4), paddingLeft: wp(0.5)}}>
           <Text
             style={{
               fontSize: getResponsiveFontSize(22),
               fontFamily: fonts.WorkSansRegular,
-              color: '#000000',
+              color: !darkTheme ? '#000000' : '#FFFFFF',
             }}>
             {'Artsy black sling bag'}
           </Text>
-        </View>
+        </ScrollView>
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }

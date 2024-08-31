@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Svg, {Path, SvgProps} from 'react-native-svg';
-const LightCross = (props: SvgProps) => (
+const LightCross = ({color = '#000000', ...props}: SvgProps) => (
   <Svg
     width={13}
     height={13}
@@ -11,7 +11,7 @@ const LightCross = (props: SvgProps) => (
     <Path
       opacity={0.2}
       d="M13 1.85705L11.143 0L6.5 4.64295L1.85705 0L0 1.85705L4.64295 6.5L0 11.143L1.85705 13L6.5 8.35705L11.143 13L13 11.143L8.35705 6.5L13 1.85705Z"
-      fill="black"
+      fill={color}
     />
   </Svg>
 );
