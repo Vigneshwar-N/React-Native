@@ -1,11 +1,11 @@
 import {TouchableOpacity, ImageBackground, View} from 'react-native';
 import React from 'react';
 import {getResponsiveHeight, getResponsiveWidth} from '../utility/responsive';
-import HomeImage from '../assets/images/svgs/Home/Home';
-import SearchIcon from '../assets/images/svgs/Home/Search';
-import BlackHeartIcon from '../assets/images/svgs/Home/BlackHeart';
-import Cart from '../assets/images/svgs/Home/CartImage';
-const image = require('../assets/images/Transparent.png');
+import HomeImage from '../../assets/images/svgs/Home/Home';
+import SearchIcon from '../../assets/images/svgs/Home/Search';
+import BlackHeartIcon from '../../assets/images/svgs/Home/BlackHeart';
+import Cart from '../../assets/images/svgs/Home/CartImage';
+const image = require('../../assets/images/Transparent.png');
 
 export default function Footer({navigation}) {
   return (

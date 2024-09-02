@@ -1,12 +1,12 @@
 import {View, Text} from 'react-native';
 import React, {useContext} from 'react';
-import MenuImage from '../assets/images/svgs/Home/Menu';
+import MenuImage from '../../assets/images/svgs/Home/Menu';
 import {
   getResponsiveFontSize,
   getResponsiveHeight,
   getResponsiveWidth,
 } from '../utility/responsive';
-import ProfileImage from '../assets/images/svgs/Home/Profile';
+import ProfileImage from '../../assets/images/svgs/Home/Profile';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
 import {fonts} from '../constants/fonts/font';
 import {ThemeContext} from '../Hooks/UseContext';

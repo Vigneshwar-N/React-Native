@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {createDrawerNavigator} from '@react-navigation/drawer';
-import {View, Text, TouchableOpacity} from 'react-native';
+import {View, TouchableOpacity, StyleSheet} from 'react-native';
 import Settings from '../screens/Settings';
 import {BottomNavigator} from './BottomTabs';
 import {
@@ -11,8 +11,10 @@ import {
 import {fonts} from '../constants/fonts/font';
 import {ThemeContext} from '../Hooks/UseContext';
 import {heightPercentageToDP} from 'react-native-responsive-screen';
-import MenuImage from '../assets/images/svgs/Home/Menu';
-import ProfileImage from '../assets/images/svgs/Home/Profile';
+import MenuImage from '../../assets/images/svgs/Home/Menu';
+import ProfileImage from '../../assets/images/svgs/Home/Profile';
+import {myColor} from '../utility/Colors/myColors';
+import CustomText from '../components/Text';
 
 const Drawer = createDrawerNavigator();
 
@@ -26,7 +28,7 @@ export function DrawerNavigator() {
           <ProfileImage
             height={getResponsiveHeight(32)}
             width={getResponsiveWidth(32)}
-            color={darkTheme ? '#FFFFFF' : '#000000'}
+            color={darkTheme ? myColor.white : myColor.black}
           />
         ),
 
@@ -35,59 +37,75 @@ export function DrawerNavigator() {
             <MenuImage
               height={getResponsiveHeight(14)}
               width={getResponsiveWidth(24)}
-              color={darkTheme ? '#FFFFFF' : '#000000'}
+              color={darkTheme ? myColor.white : myColor.black}
             />
           </TouchableOpacity>
         ),
 
         headerTitle: () => (
           <View>
-            <Text
-              style={{
-                fontSize: getResponsiveFontSize(22),
-                marginBottom: 3.2,
-                paddingLeft: '4%',
-                fontFamily: fonts.PlayfairDisplayBold,
-                color: !darkTheme ? '#000000' : '#FFFFFF',
-              }}>
-              ShopGrid
-            </Text>
+            <CustomText
+              style={[
+                styles.headerTitle,
+                {color: darkTheme ? myColor.white : myColor.black},
+              ]}
+              text={'ShopGrid'}
+            />
           </View>
         ),
 
-        headerStyle: {
-          height: getResponsiveHeight(88),
-          backgroundColor: !darkTheme ? '#ffffff' : '#000000',
-        },
+        headerStyle: [
+          styles.headerStyle,
+          {backgroundColor: darkTheme ? myColor.black : myColor.white},
+        ],
 
-        headerLeftContainerStyle: {
-          paddingTop: heightPercentageToDP(3),
-          paddingLeft: '4%',
-        },
+        headerLeftContainerStyle: styles.headerLeftContainer,
+        headerRightContainerStyle: styles.headerRightContainer,
+        headerTitleContainerStyle: styles.headerTitleContainer,
 
-        headerRightContainerStyle: {
-          paddingTop: heightPercentageToDP(3),
-          paddingRight: '4%',
-        },
-
-        headerTitleContainerStyle: {
-          paddingTop: heightPercentageToDP(3),
-        },
-        drawerType: 'slide',
-        // drawerPosition: 'right',
-        drawerActiveBackgroundColor: darkTheme ? '#1c1c1c' : '#f1f1f1',
-        drawerActiveTintColor: darkTheme ? '#ffffff' : '#000000',
-        drawerLabelStyle: {
-          fontFamily: fonts.WorkSansMedium,
-          fontSize: getResponsiveFontSize(18),
-        },
-        drawerContentContainerStyle: {
-          backgroundColor: darkTheme ? '#000000' : '#FFFFFF',
-          flex: 1,
-        },
+        // drawerType: ""
+        drawerActiveBackgroundColor: darkTheme
+          ? myColor.darkGray
+          : myColor.lightGray,
+        drawerActiveTintColor: darkTheme ? myColor.white : myColor.black,
+        drawerLabelStyle: styles.drawerLabel,
+        drawerContentContainerStyle: [
+          styles.drawerContent,
+          {backgroundColor: darkTheme ? myColor.black : myColor.white},
+        ],
       })}>
       <Drawer.Screen name="Home" component={BottomNavigator} />
       <Drawer.Screen name="Settings" component={Settings} />
     </Drawer.Navigator>
   );
 }
+
+const styles = StyleSheet.create({
+  headerTitle: {
+    fontSize: getResponsiveFontSize(22),
+    marginBottom: 3.2,
+    paddingLeft: '4%',
+    fontFamily: fonts.PlayfairDisplayBold,
+  },
+  headerStyle: {
+    height: getResponsiveHeight(88),
+  },
+  headerLeftContainer: {
+    paddingTop: heightPercentageToDP(3),
+    paddingLeft: '4%',
+  },
+  headerRightContainer: {
+    paddingTop: heightPercentageToDP(3),
+    paddingRight: '4%',
+  },
+  headerTitleContainer: {
+    paddingTop: heightPercentageToDP(3),
+  },
+  drawerLabel: {
+    fontFamily: fonts.WorkSansMedium,
+    fontSize: getResponsiveFontSize(18),
+  },
+  drawerContent: {
+    flex: 1,
+  },
+});

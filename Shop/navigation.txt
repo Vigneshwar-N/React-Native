@@ -11,3 +11,11 @@ plugins: ['react-native-reanimated/plugin',] in babel.config,js
 
 npm install @react-navigation/material-top-tabs react-native-tab-view
 npm install react-native-pager-view
+
+bottom sheet
+
+npm i @gorhom/bottom-sheet
+npm i react-native-portal
+
+material bottom 
+npm install react-native-paper

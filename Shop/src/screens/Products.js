@@ -1,14 +1,16 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState, useCallback, memo} from 'react';
 import {
   View,
   Text,
-  TouchableOpacity,
   Image,
   FlatList,
   StyleSheet,
+  TouchableOpacity,
+  Modal,
+  RefreshControl,
+  ActivityIndicator,
+  TouchableWithoutFeedback,
 } from 'react-native';
-import {heightPercentageToDP as hp} from 'react-native-responsive-screen';
-import {data2} from '../constants/data2';
 import {
   getResponsiveFontSize,
   getResponsiveHeight,
@@ -21,12 +23,55 @@ import {ThemeContext} from '../Hooks/UseContext';
 import {myColor} from '../utility/Colors/myColors';
 import {SelectedItemContext} from '../apis/PassData';
 
-export default function List({navigation}) {
-  const Storage = UseEffect();
+const Products = ({navigation}) => {
   const {selectedItem, setSelectedItem} = useContext(SelectedItemContext);
-  console.log(`this is selected,${selectedItem}`);
 
+  const Storage = UseEffect();
   const {darkTheme} = useContext(ThemeContext);
+  const [data, setData] = useState(Storage.slice(0, 10));
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [refreshing, setRefreshing] = useState(false);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  const shuffleArray = array => {
+    let shuffled = array.slice();
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  };
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    const randomizedData = shuffleArray(Storage);
+    setData(randomizedData.slice(0, 10));
+    setRefreshing(false);
+  }, [Storage]);
+
+  const loadMoreData = () => {
+    if (data.length < Storage.length && !loadingMore) {
+      setLoadingMore(true);
+      setTimeout(() => {
+        setData(prevData => [
+          ...prevData,
+          ...shuffleArray(Storage).slice(prevData.length, prevData.length + 10),
+        ]);
+        setLoadingMore(false);
+      }, 1000);
+    }
+  };
+
+  const openModal = imageUri => {
+    setSelectedImage(imageUri);
+    setModalVisible(true);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+    setSelectedImage(null);
+  };
 
   return (
     <View
@@ -35,8 +80,7 @@ export default function List({navigation}) {
         {backgroundColor: darkTheme ? myColor.black : myColor.white},
       ]}>
       <FlatList
-        data={Storage.slice(0, 4)}
-        scrollEnabled={false}
+        data={data}
         numColumns={2}
         contentContainerStyle={styles.listContentContainer}
         renderItem={({item, index}) => (
@@ -104,40 +148,49 @@ export default function List({navigation}) {
             </View>
           </View>
         )}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }
+        onEndReached={loadMoreData}
+        onEndReachedThreshold={0.5}
+        ListFooterComponent={
+          loadingMore ? (
+            <ActivityIndicator
+              size="large"
+              color={!darkTheme ? myColor.black : myColor.white}
+            />
+          ) : null
+        }
       />
-      <View style={{alignItems: 'center'}}>
-        <TouchableOpacity
-          onPress={() => {
-            navigation.navigate('Products');
-          }}>
-          <Text
-            style={{
-              fontFamily: fonts.WorkSansMedium,
-              fontSize: getResponsiveFontSize(14),
-              padding: '2%',
-              borderWidth: getResponsiveWidth(1),
-              borderColor: !darkTheme ? myColor.black : myColor.white,
-              color: !darkTheme ? myColor.black : myColor.white,
-            }}>
-            SHOW ALL
-          </Text>
-        </TouchableOpacity>
-      </View>
+      <Modal
+        visible={modalVisible}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={closeModal}>
+        <TouchableWithoutFeedback onPress={closeModal}>
+          <View style={styles.modalBackground}>
+            <Image style={styles.modalImage} source={{uri: selectedImage}} />
+          </View>
+        </TouchableWithoutFeedback>
+      </Modal>
     </View>
   );
-}
+};
+
+export default memo(Products);
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: hp(7),
-    marginBottom: hp(2),
+    flex: 1,
   },
   listContentContainer: {
     alignItems: 'center',
+    paddingBottom: getResponsiveHeight(30),
   },
   itemContainer: {
     alignItems: 'center',
     marginBottom: getResponsiveHeight(30),
+    marginTop: getResponsiveHeight(20),
   },
   itemContent: {
     height: getResponsiveHeight(210),
@@ -173,5 +226,16 @@ const styles = StyleSheet.create({
   shopNowText: {
     fontSize: getResponsiveFontSize(14),
     fontFamily: fonts.WorkSansMedium,
+  },
+  modalBackground: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+  },
+  modalImage: {
+    width: '90%',
+    height: '80%',
+    resizeMode: 'contain',
   },
 });

@@ -5,25 +5,25 @@ import {
   getResponsiveWidth,
 } from '../../utility/responsive';
 import {fonts} from '../../constants/fonts/font';
-
+import {myColor} from '../../utility/Colors/myColors';
 export const lightThemeStyles = StyleSheet.create({
   button: {
-    backgroundColor: '#F1F1F1',
+    backgroundColor: myColor.lightGray,
   },
   backgroundColor: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: myColor.white,
   },
   text: {
-    color: '#000000',
+    color: myColor.black,
   },
 });
 
 export const darkThemeStyles = StyleSheet.create({
   button: {
-    backgroundColor: '#1C1C1C',
+    backgroundColor: myColor.darkGray,
   },
   backgroundColor: {
-    backgroundColor: '#000000',
+    backgroundColor: myColor.black,
   },
   text: {
     color: '#FFFFFF',

@@ -7,7 +7,7 @@ import {
   getResponsiveWidth,
 } from '../utility/responsive';
 import {fonts} from '../constants/fonts/font';
-import HeartImage from '../assets/images/svgs/Home/Heart';
+import HeartImage from '../../assets/images/svgs/Home/Heart';
 import List from './List';
 
 export default function Content() {

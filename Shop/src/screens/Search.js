@@ -1,93 +1,160 @@
+import React, {useContext, useState, useEffect} from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   KeyboardAvoidingView,
-  ScrollView,
+  StyleSheet,
 } from 'react-native';
-import React, {useContext, useState} from 'react';
-//Package
 import {
   heightPercentageToDP as hp,
   widthPercentageToDP as wp,
 } from 'react-native-responsive-screen';
-import Cross from '../assets/images/svgs/Search/Cross';
-import LightCross from '../assets/images/svgs/Search/LightCross';
+import Cross from '../../assets/images/svgs/Search/Cross';
+import LightCross from '../../assets/images/svgs/Search/LightCross';
 import {
   getResponsiveFontSize,
   getResponsiveHeight,
   getResponsiveWidth,
 } from '../utility/responsive';
 import {fonts} from '../constants/fonts/font';
-import {ThemeProvider} from '@react-navigation/native';
 import {ThemeContext} from '../Hooks/UseContext';
-export default function Search() {
+import {myColor} from '../utility/Colors/myColors';
+import {SelectedItemContext} from '../apis/PassData';
+import UseEffect from '../Hooks/UseEffect';
+import {FlatList, ScrollView} from 'react-native-gesture-handler';
+
+export default function Search({navigation}) {
   const {darkTheme} = useContext(ThemeContext);
   const [input, setInput] = useState('');
+  const [filteredData, setFilteredData] = useState([]);
+  const {selectedItem, setSelectedItem} = useContext(SelectedItemContext);
+  const Storage = UseEffect();
+  const data = useState(null);
+
+  useEffect(() => {
+    if (!input) {
+      setFilteredData(Storage);
+    } else {
+      setFilteredData(
+        Storage.filter(item =>
+          item.title.toLowerCase().includes(input.toLowerCase()),
+        ),
+      );
+    }
+  }, [input, Storage]);
 
   return (
-    <KeyboardAvoidingView
-      style={{
-        paddingTop: hp(5),
-        paddingRight: '4%',
-        paddingLeft: '4%',
-        backgroundColor: !darkTheme ? '#FFFFFF' : '#000000',
-        flex: 1,
-      }}>
-      <View style={{alignItems: 'flex-end'}}>
-        <TouchableOpacity>
+    <View
+      style={[
+        styles.container,
+        {backgroundColor: darkTheme ? myColor.black : myColor.white},
+      ]}>
+      <View style={styles.crossContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('Stack');
+          }}>
           <Cross
             height={getResponsiveHeight(38)}
             width={getResponsiveWidth(38)}
-            color={!darkTheme ? '#000000' : '#ffffff'}
+            color={darkTheme ? myColor.white : myColor.black}
           />
         </TouchableOpacity>
       </View>
-      <View style={{position: 'static'}}>
+      <View style={styles.searchBarContainer}>
         <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            borderBottomWidth: getResponsiveHeight(1),
-            borderBottomColor: !darkTheme ? '#000000' : '#ffffff',
-          }}>
+          style={[
+            styles.searchBar,
+            {borderBottomColor: darkTheme ? myColor.white : myColor.black},
+          ]}>
           <TextInput
-            style={{
-              fontSize: getResponsiveFontSize(21),
-              lineHeight: getResponsiveHeight(26),
-              fontFamily: fonts.WorkSansRegular,
-              color: !darkTheme ? '#000000' : '#FFFFFF',
-              width: wp(82),
-            }}
+            style={[
+              styles.textInput,
+              {
+                color: darkTheme ? myColor.white : myColor.black,
+              },
+            ]}
+            placeholderTextColor={darkTheme ? myColor.white : myColor.black}
             numberOfLines={1}
-            placeholderTextColor={!darkTheme ? '#000000' : '#FFFFFF'}
             placeholder="Enter here"
             value={input}
             onChangeText={text => setInput(text)}
           />
           <TouchableOpacity
-            style={{paddingRight: '5%', height: getResponsiveHeight(26)}}
+            style={styles.clearButton}
             onPress={() => setInput('')}>
             <LightCross
               height={getResponsiveHeight(13)}
               width={getResponsiveWidth(13)}
-              color={!darkTheme ? '#000000' : '#ffffff'}
+              color={darkTheme ? myColor.white : myColor.black}
             />
           </TouchableOpacity>
         </View>
-        <ScrollView style={{paddingTop: hp(4), paddingLeft: wp(0.5)}}>
-          <Text
-            style={{
-              fontSize: getResponsiveFontSize(22),
-              fontFamily: fonts.WorkSansRegular,
-              color: !darkTheme ? '#000000' : '#FFFFFF',
-            }}>
-            {'Artsy black sling bag'}
-          </Text>
-        </ScrollView>
+        <FlatList
+          data={!filteredData ? data : filteredData}
+          showsVerticalScrollIndicator={false}
+          renderItem={({item}) => (
+            <View>
+              <TouchableOpacity
+                onPress={() => {
+                  setSelectedItem(item);
+                  navigation.navigate('ProductDescription');
+                }}
+                style={styles.scrollView}>
+                <Text
+                  style={[
+                    styles.resultText,
+                    {color: darkTheme ? myColor.white : myColor.black},
+                  ]}>
+                  {item.title}
+                </Text>
+              </TouchableOpacity>
+            </View>
+          )}
+          keyExtractor={item => item.id.toString()}
+        />
       </View>
-    </KeyboardAvoidingView>
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: hp(5),
+    paddingRight: '4%',
+    paddingLeft: '4%',
+    flex: 1,
+  },
+  crossContainer: {
+    alignItems: 'flex-end',
+  },
+  searchBarContainer: {
+    flex: 1,
+  },
+  searchBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    borderBottomWidth: getResponsiveHeight(1),
+  },
+  textInput: {
+    fontSize: getResponsiveFontSize(21),
+    lineHeight: getResponsiveHeight(26),
+    fontFamily: fonts.WorkSansRegular,
+    width: wp(82),
+  },
+  clearButton: {
+    paddingRight: '5%',
+    height: getResponsiveHeight(26),
+  },
+  resultText: {
+    fontSize: getResponsiveFontSize(22),
+    fontFamily: fonts.WorkSansRegular,
+  },
+  scrollView: {
+    paddingTop: hp(4),
+    paddingLeft: wp(0.5),
+  },
+});
